@@ -27,9 +27,10 @@ public class BForm implements Serializable {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
-
     //Property(value = "表单名称")
     private String formName;
+
+    private String formKey;
 
     //Property(value = "创建者id")
     private Long userId;

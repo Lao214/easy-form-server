@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface BFormService extends IService<BForm> {
 
+    boolean updateByKey(BForm form);
 }

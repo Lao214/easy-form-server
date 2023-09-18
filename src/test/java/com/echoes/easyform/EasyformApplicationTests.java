@@ -1,6 +1,7 @@
 package com.echoes.easyform;
 
 import cn.dev33.satoken.secure.SaSecureUtil;
+import cn.hutool.core.util.IdUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,18 +25,8 @@ class EasyformApplicationTests {
 
 	@Test
 	void contextLoads() {
-
-		// 定义秘钥和明文
-		String key = "echoes";
-		String text = "qwert123";
-
-// 加密
-		String ciphertext = SaSecureUtil.aesEncrypt(key, text);
-		System.out.println("AES加密后：" + ciphertext);
-
-// 解密
-		String text2 = SaSecureUtil.aesDecrypt(key, ciphertext);
-		System.out.println("AES解密后：" + text2);
+		long uuid = IdUtil.getSnowflake(1, 1).nextId();
+		System.out.println("UUID: " + uuid);
 	}
 
 }

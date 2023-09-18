@@ -17,4 +17,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class BFormServiceImpl extends ServiceImpl<BFormMapper, BForm> implements BFormService {
 
+    @Override
+    public boolean updateByKey(BForm form) {
+        return baseMapper.updateByKey(form);
+    }
 }

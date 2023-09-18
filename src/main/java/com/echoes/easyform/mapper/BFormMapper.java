@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface BFormMapper extends BaseMapper<BForm> {
 
+    boolean updateByKey(BForm form);
 }

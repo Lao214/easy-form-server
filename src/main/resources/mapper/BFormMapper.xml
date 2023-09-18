@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.echoes.easyform.mapper.BFormMapper">
+
+    <!-- UserMapper.xml -->
+    <update id="updateByKey" parameterType="com.echoes.easyform.entity.BForm">
+        UPDATE b_form
+        SET
+        <if test="formName != null and formName != ''">form_name = #{formName},</if>
+        <if test="userId != null">user_id = #{userId},</if>
+        <if test="formStatus != null">form_status = #{formStatus},</if>
+        <if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+        <if test="evaluateLogic != null and evaluateLogic != ''">evaluate_logic = #{evaluateLogic},</if>
+        <if test="formItems != null and formItems != ''">form_items = #{formItems},</if>
+        <if test="formType != null">form_type = #{formType},</if>
+        <if test="description != null and description != ''">description = #{description},</if>
+        <if test="writeCount != null">write_count = #{writeCount}</if>
+        WHERE form_key = #{formKey}
+    </update>
+
+</mapper>
