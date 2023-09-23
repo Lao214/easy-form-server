@@ -70,9 +70,6 @@ public class BFormController {
         } catch (MybatisPlusException e) {
             // 这是 mybatis-plus 的报错
             return Result.error().code(201).msg("数据错误，请注意填写规范或联系管理员");
-        } catch (SaTokenException e) {
-            // 这是 sa-token 的报错
-            return Result.success().code(201).msg("登录过期或者没有登录，请重新登录");
         } catch (Exception e) {
             // 其他类型的错误
             return Result.error().code(201).msg("系统繁忙，请稍后再试或联系管理员");

@@ -47,6 +47,8 @@ public class BForm implements Serializable {
     //Property(value = "反馈逻辑")
     private String evaluateLogic;
 
+    private String evaluateUi;
+
     //Property(value = "表单项")
     private String formItems;
 
