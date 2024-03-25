@@ -29,4 +29,10 @@ class EasyformApplicationTests {
 		System.out.println("UUID: " + uuid);
 	}
 
+	@Test
+	void contextLoads2() {
+		String pass = SaSecureUtil.aesEncrypt("echoes", "qwer1234");
+		System.out.println("UUID: " + pass);
+	}
+
 }
