@@ -1,20 +1,21 @@
 package com.echoes.easyform.controller;
 
 
-import cn.dev33.satoken.exception.SaTokenException;
-import cn.dev33.satoken.stp.StpUtil;
+
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.echoes.easyform.entity.BForm;
 import com.echoes.easyform.service.BFormService;
+import com.echoes.easyform.utils.JwtUtil;
 import com.echoes.easyform.utils.Result;
-import net.sf.jsqlparser.expression.LongValue;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -32,9 +33,10 @@ public class BFormController {
 
 
     @GetMapping("getFormByKey/{formKey}")
-    public Result getFormByKey(@PathVariable("formKey") String formKey) {
+    public Result getFormByKey(@PathVariable("formKey") String formKey,HttpServletRequest request) {
         try {
-            long loginIdAsLong = StpUtil.getLoginIdAsLong();
+            Map<String, String> memberIdByJwtToken = JwtUtil.getMemberIdByJwtToken(request);
+            String loginIdAsLong = memberIdByJwtToken.get("userId");
             QueryWrapper<BForm> formQueryWrapper = new QueryWrapper<BForm>();
             formQueryWrapper.eq("user_id", loginIdAsLong);
             formQueryWrapper.eq("form_key", formKey);
@@ -47,9 +49,6 @@ public class BFormController {
         } catch (MybatisPlusException e) {
             // 这是 mybatis-plus 的报错
             return Result.error().code(201).msg("数据错误，请注意填写规范或联系管理员");
-        } catch (SaTokenException e) {
-            // 这是 sa-token 的报错
-            return Result.success().code(201).msg("登录过期或者没有登录，请重新登录");
         } catch (Exception e) {
             // 其他类型的错误
             return Result.error().code(201).msg("系统繁忙，请稍后再试或联系管理员");
@@ -77,10 +76,11 @@ public class BFormController {
     }
 
     @PostMapping("saveForm")
-    public Result saveForm(@RequestBody BForm form) {
+    public Result saveForm(@RequestBody BForm form, HttpServletRequest request) {
         try {
-            long loginIdAsLong = StpUtil.getLoginIdAsLong();
-            form.setUserId(loginIdAsLong);
+            Map<String, String> memberIdByJwtToken = JwtUtil.getMemberIdByJwtToken(request);
+            String loginIdAsLong = memberIdByJwtToken.get("userId");
+            form.setUserId(Long.valueOf(loginIdAsLong));
             long uuid = IdUtil.getSnowflake(1, 1).nextId();
             form.setFormKey(uuid + "");
             boolean save = formService.save(form);
@@ -92,19 +92,17 @@ public class BFormController {
         } catch (MybatisPlusException e) {
             // 这是 mybatis-plus 的报错
             return Result.error().code(201).msg("数据错误，请注意填写规范或联系管理员");
-        } catch (SaTokenException e) {
-            // 这是 sa-token 的报错
-            return Result.success().code(201).msg("登录过期或者没有登录，请重新登录");
-        } catch (Exception e) {
+        }catch (Exception e) {
             // 其他类型的错误
             return Result.error().code(201).msg("系统繁忙，请稍后再试或联系管理员");
         }
     }
 
     @PostMapping("updateForm")
-    public Result updateForm(@RequestBody BForm form) {
+    public Result updateForm(@RequestBody BForm form, HttpServletRequest request) {
         try {
-            long loginIdAsLong = StpUtil.getLoginIdAsLong();
+            Map<String, String> memberIdByJwtToken = JwtUtil.getMemberIdByJwtToken(request);
+            String loginIdAsLong = memberIdByJwtToken.get("userId");
             QueryWrapper<BForm> qw = new QueryWrapper<>();
             qw.eq("form_key",form.getFormKey());
             qw.eq("user_id",loginIdAsLong);
@@ -117,9 +115,6 @@ public class BFormController {
         } catch (MybatisPlusException e) {
             // 这是 mybatis-plus 的报错
             return Result.error().code(201).msg("数据错误，请注意填写规范或联系管理员");
-        } catch (SaTokenException e) {
-            // 这是 sa-token 的报错
-            return Result.success().code(201).msg("登录过期或者没有登录，请重新登录");
         } catch (Exception e) {
             // 其他类型的错误
             return Result.error().code(201).msg("系统繁忙，请稍后再试或联系管理员");
@@ -127,9 +122,10 @@ public class BFormController {
     }
 
     @PostMapping("getFormList")
-    public Result getFormList(@RequestBody BForm form) {
+    public Result getFormList(@RequestBody BForm form, HttpServletRequest request) {
         try {
-            long loginIdAsLong = StpUtil.getLoginIdAsLong();
+            Map<String, String> memberIdByJwtToken = JwtUtil.getMemberIdByJwtToken(request);
+            String userId = memberIdByJwtToken.get("userId");
             QueryWrapper<BForm> bFormQueryWrapper = new QueryWrapper<BForm>();
             if(StringUtils.isNoneBlank(form.getFormName())) {
                 bFormQueryWrapper.eq("form_name",form.getFormName());
@@ -147,17 +143,14 @@ public class BFormController {
             } else if(form.getSortType().equals("SortByWriteCountAsc")) {
                 bFormQueryWrapper.orderByAsc("write_count");
             }
-            bFormQueryWrapper.eq("user_id",loginIdAsLong);
+            bFormQueryWrapper.eq("user_id",userId);
             bFormQueryWrapper.select("id","form_name","user_id","form_status","create_time","form_type","form_key");
             List<BForm> list = formService.list(bFormQueryWrapper);
             return Result.success().data("list",list);
         } catch (MybatisPlusException e) {
             // 这是 mybatis-plus 的报错
             return Result.error().code(201).msg("数据错误，请注意填写规范或联系管理员");
-        } catch (SaTokenException e) {
-            // 这是 sa-token 的报错
-            return Result.success().code(201).msg("登录过期或者没有登录，请重新登录");
-        } catch (Exception e) {
+        }  catch (Exception e) {
             // 其他类型的错误
             return Result.error().code(201).msg("系统繁忙，请稍后再试或联系管理员");
         }

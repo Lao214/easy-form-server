@@ -1,12 +1,12 @@
 package com.echoes.easyform;
 
-import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.hutool.core.util.IdUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootTest
 class EasyformApplicationTests {
@@ -31,8 +31,11 @@ class EasyformApplicationTests {
 
 	@Test
 	void contextLoads2() {
-		String pass = SaSecureUtil.aesEncrypt("echoes", "qwer1234");
-		System.out.println("UUID: " + pass);
+		// 创建密码解析器
+		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+		// 对密码进行加密
+		String bpePassword = bCryptPasswordEncoder.encode("qwer1234");
+		System.out.println(bpePassword);
 	}
 
 }

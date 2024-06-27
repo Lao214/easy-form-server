@@ -2,6 +2,8 @@ package com.echoes.easyform.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import lombok.Data;
@@ -22,13 +24,15 @@ public class SaUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-      @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     //Property(value = "用户名")
+    @TableField("username")
     private String username;
 
     //Property(value = "密码")
+    @TableField("password")
     private String password;
 
     //Property(value = "电话号码(大陆)")
@@ -38,6 +42,7 @@ public class SaUser implements Serializable {
     private String email;
 
     //Property(value = "头像")
+    @TableField("avatar")
     private String avatar;
 
     //Property(value = "是否为管理员(0：否，1：是)")
@@ -51,6 +56,9 @@ public class SaUser implements Serializable {
 
     //Property(value = "个性签名")
     private String signature;
-
+    @TableField("nickname")
     private String nickname;
+
+    @TableField(exist = false)
+    private String newPassword;
 }
