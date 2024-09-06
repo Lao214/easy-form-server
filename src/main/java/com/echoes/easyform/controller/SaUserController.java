@@ -74,6 +74,7 @@ public class SaUserController {
         return Result.success().msg("登录成功").data("token",jjwtStr).data("expTime", formattedExpTime);
     }
 
+
     @GetMapping("/logout")
     public Result loginOut() {
         String msg = loginService.loginOut();

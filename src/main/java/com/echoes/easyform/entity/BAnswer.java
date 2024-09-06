@@ -48,4 +48,10 @@ public class BAnswer implements Serializable {
     @TableField(exist = false)
     private String logic;
 
+    @TableField(exist = false)
+    private String logicUI;
+
+    @TableField(exist = false)
+    private String resultData;
+
 }

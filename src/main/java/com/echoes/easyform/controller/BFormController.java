@@ -31,7 +31,6 @@ public class BFormController {
     @Autowired
     private BFormService formService;
 
-
     @GetMapping("getFormByKey/{formKey}")
     public Result getFormByKey(@PathVariable("formKey") String formKey,HttpServletRequest request) {
         try {
