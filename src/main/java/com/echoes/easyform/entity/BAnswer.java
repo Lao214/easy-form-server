@@ -52,6 +52,6 @@ public class BAnswer implements Serializable {
     private String logicUI;
 
     @TableField(exist = false)
-    private String resultData;
+    private String keyword;
 
 }

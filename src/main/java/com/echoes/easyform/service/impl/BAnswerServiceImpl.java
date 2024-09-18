@@ -1,5 +1,7 @@
 package com.echoes.easyform.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.echoes.easyform.entity.BAnswer;
 import com.echoes.easyform.mapper.BAnswerMapper;
 import com.echoes.easyform.service.BAnswerService;
@@ -17,4 +19,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class BAnswerServiceImpl extends ServiceImpl<BAnswerMapper, BAnswer> implements BAnswerService {
 
+    @Override
+    public IPage<BAnswer> selectPage(Page<BAnswer> pageParam, BAnswer bAnswer) {
+        return baseMapper.selectPage(pageParam, bAnswer);
+    }
 }

@@ -2,4 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.echoes.easyform.mapper.BAnswerMapper">
 
+    <resultMap id="answerMap" type="com.echoes.easyform.entity.BAnswer" autoMapping="true"></resultMap>
+
+    <select id="selectPage" resultMap="answerMap">
+        select *
+        from b_answer
+        <where>
+            1 = 1
+            <if test="vo.keyword != null and vo.keyword != ''">
+                and (answer_details like CONCAT('%',#{vo.keyword},'%'))
+            </if>
+            <if test="vo.formKey != null and vo.formKey != ''">
+                and form_key = #{vo.formKey}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
 </mapper>

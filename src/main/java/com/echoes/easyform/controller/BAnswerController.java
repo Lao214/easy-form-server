@@ -5,6 +5,8 @@ package com.echoes.easyform.controller;
 import com.alibaba.excel.util.StringUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.echoes.easyform.entity.BAnswer;
 import com.echoes.easyform.service.BAnswerService;
 import com.echoes.easyform.utils.Calculator;
@@ -12,14 +14,11 @@ import com.echoes.easyform.utils.ResponseStatus;
 import com.echoes.easyform.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,7 +35,6 @@ public class BAnswerController {
 
     @Autowired
     private BAnswerService bAnswerService;
-
 
     @PostMapping("saveAnswer")
     @Transactional
@@ -86,6 +84,15 @@ public class BAnswerController {
             // 其他类型的错误
             return Result.error().code(201).msg("系统繁忙，请稍后再试或联系管理员");
         }
+    }
+
+    @GetMapping("getPageList/{page}/{limit}")
+    public Result getPageList(@PathVariable("page") int page, @PathVariable("limit") int limit, BAnswer bAnswer) {
+        //创建page对象
+        Page<BAnswer> pageParam = new Page<>(page,limit);
+        //调用service方法
+        IPage<BAnswer> pageModel = bAnswerService.selectPage(pageParam,bAnswer);
+        return Result.success().data("data",pageModel);
     }
 
 }

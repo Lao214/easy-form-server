@@ -1,5 +1,7 @@
 package com.echoes.easyform.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.echoes.easyform.entity.BAnswer;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface BAnswerService extends IService<BAnswer> {
 
+    IPage<BAnswer> selectPage(Page<BAnswer> pageParam, BAnswer bAnswer);
 }

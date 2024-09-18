@@ -103,6 +103,9 @@ public class BFormController {
             Map<String, String> memberIdByJwtToken = JwtUtil.getMemberIdByJwtToken(request);
             String loginIdAsLong = memberIdByJwtToken.get("userId");
             QueryWrapper<BForm> qw = new QueryWrapper<>();
+            if(StringUtils.isEmpty(form.getEvaluateUi())) {
+                form.setEvaluateUi(null);
+            }
             qw.eq("form_key",form.getFormKey());
             qw.eq("user_id",loginIdAsLong);
             boolean update = formService.update(form,qw);
