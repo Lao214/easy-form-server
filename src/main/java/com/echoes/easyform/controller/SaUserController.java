@@ -13,20 +13,16 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-
-
 /**
  * <p>
  *  前端控制器
  * </p>
- *
  * @author 劳威锟
  * @since 2023-07-31
  */
@@ -43,13 +39,11 @@ public class SaUserController {
     @Autowired
     private RedisUtil redisUtil;
 
-
     @Autowired
     private LoginService loginService;
 
     @Autowired
     private RedisService redisService;
-
 
     /**
      * @description:  登录
@@ -74,12 +68,34 @@ public class SaUserController {
         return Result.success().msg("登录成功").data("token",jjwtStr).data("expTime", formattedExpTime);
     }
 
-
     @GetMapping("/logout")
     public Result loginOut() {
         String msg = loginService.loginOut();
         return Result.success().msg(msg);
     }
+
+    @PostMapping("finishedLead")
+    public Result finishedLead(@RequestBody String lead, HttpServletRequest request) {
+        // 获取请求头token字符串
+        String token = request.getHeader("easy-token");
+        if (token == null) {
+            return Result.error().code(ResponseStatus.TOKEN_NOT_EXIST.getCode()).msg(ResponseStatus.TOKEN_NOT_EXIST.getMessage());
+        }
+        Map<String, String> memberIdByJwtToken = JwtUtil.getMemberIdByJwtToken(token);
+        String username = memberIdByJwtToken.get("username");
+        QueryWrapper<SaUser> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username",username);
+        SaUser saUser = new SaUser();
+        saUser.setIsFinishedLead(lead);
+        saUser.setUsername(username);
+        boolean update = saUserService.update(saUser, queryWrapper);
+        if(update) {
+            return Result.success().msg("修改成功");
+        } else {
+            return Result.error().msg("修改失败");
+        }
+    }
+
 
 
     @PostMapping("/addUser")

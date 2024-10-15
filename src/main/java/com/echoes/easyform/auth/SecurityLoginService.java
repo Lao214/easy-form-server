@@ -45,6 +45,7 @@ public class SecurityLoginService implements UserDetailsService {
         loginUser.setNickname(users.getNickname());
         loginUser.setAvatar(users.getAvatar());
         loginUser.setId(users.getId() + "");
+        loginUser.setIsFinishedLead(users.getIsFinishedLead());
         return loginUser;
     }
 

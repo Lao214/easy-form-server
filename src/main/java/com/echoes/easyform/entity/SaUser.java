@@ -56,8 +56,11 @@ public class SaUser implements Serializable {
 
     //Property(value = "个性签名")
     private String signature;
+
     @TableField("nickname")
     private String nickname;
+
+    private String isFinishedLead;
 
     @TableField(exist = false)
     private String newPassword;

@@ -37,6 +37,8 @@ public class LoginUser implements UserDetails {
 
     private String avatar;
 
+    private String isFinishedLead;
+
     private boolean enabled;
 
     private boolean accountNonExpired;
@@ -48,11 +50,12 @@ public class LoginUser implements UserDetails {
     private List<String> authorityList;
 
 
-    public LoginUser(String username, String password, String nickname, List<String> authorityList) {
+    public LoginUser(String username, String password, String nickname, List<String> authorityList, String isFinishedLead) {
         this.username = username;
         this.password = password;
         this.authorityList = authorityList;
         this.nickname = nickname;
+        this.isFinishedLead = isFinishedLead;
     }
 
 
