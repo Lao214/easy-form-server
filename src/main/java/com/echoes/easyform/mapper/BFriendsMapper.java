@@ -2,6 +2,10 @@ package com.echoes.easyform.mapper;
 
 import com.echoes.easyform.entity.BFriends;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.echoes.easyform.entity.SaUser;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface BFriendsMapper extends BaseMapper<BFriends> {
 
+    List<SaUser> searchUser(@Param("loginId") Long loginId);
 }

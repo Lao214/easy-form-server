@@ -45,5 +45,5 @@ public class BFriends implements Serializable {
     //@ApiModelProperty(value = "被添加人设置的群组")
     private Long friendGroupId;
 
-
+    private String applyText;
 }

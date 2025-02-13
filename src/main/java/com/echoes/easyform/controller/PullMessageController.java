@@ -7,6 +7,7 @@ package com.echoes.easyform.controller;/*
  */
 
 import com.echoes.easyform.utils.RedisUtil;
+import com.echoes.easyform.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,13 +28,14 @@ public class PullMessageController {
     }
 
     @PostMapping("/pullMsg")
-    public List<Object> pullMsg(@RequestParam("from") Long from, @RequestParam("to") Long to) {
+    public Result  pullMsg(@RequestParam("from") Long from, @RequestParam("to") Long to) {
         // 根据两人的 id 生成键，并到 redis 中获取
         String key = LongStream.of(from, to)
                 .sorted()
                 .mapToObj(String::valueOf)
                 .collect(Collectors.joining("-"));
-        return redis.getMsg(key);
+        List<Object> msg = redis.getMsg(key);
+        return Result.success().data("data",msg);
     }
 
 

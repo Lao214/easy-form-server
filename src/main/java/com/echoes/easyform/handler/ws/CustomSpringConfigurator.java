@@ -1,4 +1,4 @@
-package com.echoes.easyform.ws;/*
+package com.echoes.easyform.handler.ws;/*
  *@title CustomSpringConfigurator
  *@description
  *@author echoes

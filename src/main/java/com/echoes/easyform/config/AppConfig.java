@@ -6,7 +6,7 @@ package com.echoes.easyform.config;/*
  *@create 2025/2/10 15:32
  */
 
-import com.echoes.easyform.ws.CustomSpringConfigurator;
+import com.echoes.easyform.handler.ws.CustomSpringConfigurator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;

@@ -17,4 +17,6 @@ import java.util.List;
 public interface BFriendsService extends IService<BFriends> {
 
     List<SaUser> getFriends(Long userId);
+
+    List<SaUser> searchUser(Long loginId);
 }

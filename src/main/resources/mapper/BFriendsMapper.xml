@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.echoes.easyform.mapper.BFriendsMapper">
+
+    <resultMap id="friendsMap" type="com.echoes.easyform.entity.BFriends" autoMapping="true"></resultMap>
+
+    <resultMap id="userMap" type="com.echoes.easyform.entity.SaUser" autoMapping="true"></resultMap>
+
+    <select id="searchUser" resultMap="userMap">
+        SELECT
+            su.id,
+            su.username,
+            su.avatar,
+            su.nickname,
+            bf.status
+        FROM
+            sa_user su
+        LEFT JOIN
+            b_friends bf
+            ON (bf.user_id = su.id OR bf.friend_id = su.id)
+            AND bf.status &lt;&gt; 'accepted'
+        WHERE
+            su.id &lt;&gt; #{loginId}
+    </select>
+
+
+
+</mapper>
