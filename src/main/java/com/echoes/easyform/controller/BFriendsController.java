@@ -86,9 +86,7 @@ public class BFriendsController {
 
     @PostMapping("/agreeFriends")
     public Result agreeFriends(HttpServletRequest request, @RequestBody BFriends bFriends) {
-        Map<String, String> memberIdByJwtToken = JwtUtil.getMemberIdByJwtToken(request);
-        String loginIdAsLong = memberIdByJwtToken.get("userId");
-        Long loginId = Long.valueOf(loginIdAsLong);
+        Long loginId = LoginUtil.getLoginId(request);
         if(!loginId.equals(bFriends.getFriendId())) {
             return Result.error().code(201).msg("非法操作");
         }
@@ -99,15 +97,30 @@ public class BFriendsController {
 
     @PostMapping("/rejectFriends")
     public Result rejectFriends(HttpServletRequest request, @RequestBody BFriends bFriends) {
-        Map<String, String> memberIdByJwtToken = JwtUtil.getMemberIdByJwtToken(request);
-        String loginIdAsLong = memberIdByJwtToken.get("userId");
-        Long loginId = Long.valueOf(loginIdAsLong);
+        Long loginId = LoginUtil.getLoginId(request);
         if(!loginId.equals(bFriends.getFriendId())) {
             return Result.error().code(201).msg("非法操作");
         }
         bFriends.setStatus(FriendsStatus.BLOCKED.getStatus());
         bFriendsService.updateById(bFriends);
         return Result.success();
+    }
+
+    @GetMapping("/checkMyFriendsApply")
+    public Result checkMyFriendsApply(HttpServletRequest request) {
+        Long loginId = LoginUtil.getLoginId(request);
+        List<BFriends> bFriends = bFriendsService.checkMyFriendsApply(loginId);
+        return Result.success().data("list",bFriends);
+    }
+
+    @GetMapping("/checkMyFriendsApplyCount")
+    public Result checkMyFriendsApplyCount(HttpServletRequest request) {
+        Long loginId = LoginUtil.getLoginId(request);
+        QueryWrapper<BFriends> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("friend_id",loginId);
+        queryWrapper.eq("status", FriendsStatus.PENDING.getStatus());
+        int count = bFriendsService.count(queryWrapper);
+        return Result.success().data("count",count);
     }
 }
 

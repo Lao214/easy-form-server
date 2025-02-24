@@ -36,4 +36,9 @@ public class BFriendsServiceImpl extends ServiceImpl<BFriendsMapper, BFriends> i
     public List<SaUser> searchUser(Long loginId) {
         return baseMapper.searchUser(loginId);
     }
+
+    @Override
+    public  List<BFriends> checkMyFriendsApply(Long loginId) {
+        return baseMapper.checkMyFriendsApply(loginId);
+    }
 }

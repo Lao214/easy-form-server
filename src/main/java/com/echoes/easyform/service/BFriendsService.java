@@ -19,4 +19,6 @@ public interface BFriendsService extends IService<BFriends> {
     List<SaUser> getFriends(Long userId);
 
     List<SaUser> searchUser(Long loginId);
+
+    List<BFriends>  checkMyFriendsApply(Long loginId);
 }

@@ -18,4 +18,6 @@ import java.util.List;
 public interface BFriendsMapper extends BaseMapper<BFriends> {
 
     List<SaUser> searchUser(@Param("loginId") Long loginId);
+
+    List<BFriends> checkMyFriendsApply(@Param("loginId")Long loginId);
 }
