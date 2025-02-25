@@ -234,4 +234,9 @@ public class RedisUtil {
         redisTemplate.opsForList().rightPush(key, value);
     }
 
+    public void deleteLatestMsg(String key) {
+        // 删除 List 最右端的元素（最新一条数据）
+        redisTemplate.opsForList().rightPop(key);
+    }
+
 }

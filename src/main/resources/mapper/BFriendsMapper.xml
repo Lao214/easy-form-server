@@ -46,5 +46,26 @@
     </select>
 
 
+    <select id="getFriends" resultMap="friendsMap">
+        SELECT
+            bf.id,
+            bf.user_id,
+            bf.friend_id,
+            bf.status,
+            bf.apply_text,
+            bf.create_time,
+            su.nickname,
+            su.avatar
+        FROM
+            b_friends bf
+        LEFT JOIN
+            sa_user su
+        ON
+            bf.user_id  = su.id
+        WHERE
+            (bf.friend_id = #{loginId} OR bf.user_id = #{loginId})
+        AND
+            bf.status = 'accepted'
+    </select>
 
 </mapper>

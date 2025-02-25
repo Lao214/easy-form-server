@@ -20,4 +20,6 @@ public interface BFriendsMapper extends BaseMapper<BFriends> {
     List<SaUser> searchUser(@Param("loginId") Long loginId);
 
     List<BFriends> checkMyFriendsApply(@Param("loginId")Long loginId);
+
+    List<SaUser> getFriends(@Param("loginId")Long loginId);
 }
