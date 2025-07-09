@@ -122,5 +122,8 @@ public class BFriendsController {
         int count = bFriendsService.count(queryWrapper);
         return Result.success().data("count",count);
     }
+
+
+
 }
 

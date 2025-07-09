@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // 不通过session获取SecurityContext
                 .and()
                 .authorizeRequests()
-                .antMatchers("/easy/user/login","/easy/user/logout","/easy/BForm/getFormByKeyPublic/{formKey}","/easy/BAnswer/saveAnswer").permitAll()  // 允许登录接口匿名访问
+                .antMatchers("/easy/user/login","/easy/user/logout","/easy/BForm/getFormByKeyPublic/{formKey}","/easy/BAnswer/saveAnswer","/websocket/**").permitAll()  // 允许登录接口匿名访问
                 .anyRequest().authenticated();  // 除上述之外的全部请求都需要鉴权认证
         http    // 将自定义JWT校验过滤链方法UsernamePasswordAuthenticationToken过滤链之前
                 .addFilterBefore(jwtSecurityFilter, UsernamePasswordAuthenticationFilter.class)
